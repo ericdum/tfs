@@ -45,6 +45,16 @@ client.upload(filepath, function (err, info) {
   // }
 });
 
+// upload file content buffer directly
+client.upload(fs.readFileSync(filepath), '', function (err, info) {
+  console.log(info);
+  // { 
+  //   name: 'T1Pj9zXkRYXXXXXXXX', 
+  //   url: 'http://img1.tfs.com/tfscom/T1Pj9zXkRYXXXXXXXX',
+  //   size: 5929
+  // }
+});
+
 // upload a stream
 client.upload(fs.createReadStream(filepath), 'jpg', function (err, info) {
   console.log(info);
@@ -84,8 +94,8 @@ function createClient(options);
 
 /**
  * Upload a file.
-
- * @param {String} filepath
+ * @param {String|Buffer} filepath file path or file content buffer.
+ * @param {String} extname. optional, if filepath is buffer or stream type, use this extname.
  * @param {Function(err, info)} callback
  *  - {Object} info
  *   - {String} name, tfs file name
@@ -93,7 +103,7 @@ function createClient(options);
  *   - {Number} size, file size
  * @param {Number} timeout, default is `client.uploadTimeout`.
  */
-Client.prototype.upload = function (filename, callback, timeout);
+Client.prototype.upload = function (filepath, extname, callback, timeout);
 
 /**
  * Remove a file by name.
