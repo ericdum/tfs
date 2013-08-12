@@ -1,4 +1,11 @@
 
+0.1.5 / 2013-08-12 
+==================
+
+  * fixed upload buffer directly bug
+  * add test usage for test env
+  * add diagnose tools link
+
 0.1.4 / 2013-07-11 
 ==================
 
