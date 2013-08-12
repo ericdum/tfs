@@ -1,4 +1,10 @@
 
+0.1.6 / 2013-08-13 
+==================
+
+  * try to guess content-type and extention when extname missing
+  * upgrade urllib version
+
 0.1.5 / 2013-08-12 
 ==================
 
