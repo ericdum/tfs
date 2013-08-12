@@ -113,6 +113,17 @@ describe('client.test.js', function () {
       });
     });
 
+    it('should upload jpg content buffer with empty extname', function (done) {
+      var content = fs.readFileSync(path.join(__dirname, '1212.jpg'));
+      client.upload(content, function (err, result) {
+        should.not.exist(err);
+        result.should.have.keys('name', 'size', 'url');
+        result.url.should.match(/\.jpg$/);
+        result.size.should.equal(content.length);
+        done();
+      });
+    });
+
     it('should upload error', function (done) {
       mm.http.requestError(/\/v1\/tfscom/, 'mock request() error');
       client.upload(logopath, function (err, info) {

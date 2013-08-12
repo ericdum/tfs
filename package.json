@@ -18,7 +18,8 @@
   "dependencies": {
     "debug": "0.7.2",
     "eventproxy": ">=0.2.5",
-    "urllib": ">=0.5.0"
+    "urllib": ">=0.5.0",
+    "bt": ">=0.0.1"
   },
   "devDependencies": {
     "should": "*",
@@ -30,10 +31,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:fengmk2/tfs.git"
+    "url": "git@github.com:fengmk2/tfs.git",
+    "web": "https://github.com/fengmk2/tfs"
   },
   "keywords": [
-    "node-tfs", "tfs", "cdn"
+    "node-tfs", "tfs", "cdn", "taobao file system"
   ],
   "engines": {
     "node": ">= 0.8.0"
