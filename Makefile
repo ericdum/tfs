@@ -20,6 +20,9 @@ test-cov: install
 	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
 	@ls -lh coverage.html
 
+toast:
+	@curl http://toast.corp.taobao.com/task/run/id/3396/token/a0419afa208b1bb8cb10eddae620bfae
+
 test-all: test test-cov
 
 .PHONY: install test test-cov test-all
