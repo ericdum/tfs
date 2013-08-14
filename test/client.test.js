@@ -195,11 +195,13 @@ describe('client.test.js', function () {
           tfsClient.remove(info.name, function (err, success) {
             should.not.exist(err);
             should.ok(success);
-            var options = urlparse(info.url);
-            var req = http.get(options, function (res) {
-              res.should.status(404);
-              done();
-            });
+            setTimeout(function () {
+              var options = urlparse(info.url);
+              var req = http.get(options, function (res) {
+                res.should.status(404);
+                done();
+              });
+            }, 500);
           });
         });
       });
@@ -224,34 +226,40 @@ describe('client.test.js', function () {
           tfsClient.remove(info.name, { hide: 1 }, function (err, success) {
             should.not.exist(err);
             should.ok(success);
-            var options = urlparse(info.url);
-            var req = http.get(options, function (res) {
-              // res.should.status(404);
+            setTimeout(function () {
+              var options = urlparse(info.url);
+              var req = http.get(options, function (res) {
+                res.should.status(404);
+                // show it
+                tfsClient.remove(info.name, { hide: 0 }, function (err, success) {
+                  should.not.exist(err);
+                  should.ok(success);
+                  var options = urlparse(info.url);
+                  var req = http.get(options, function (res) {
+                    res.should.status(200);
+                    res.should.header('Content-Type', 'image/png');
 
-              // show it
-              tfsClient.remove(info.name, { hide: 0 }, function (err, success) {
-                should.not.exist(err);
-                should.ok(success);
-                var options = urlparse(info.url);
-                var req = http.get(options, function (res) {
-                  res.should.status(200);
-                  res.should.header('Content-Type', 'image/png');
+                    // delete it
+                    tfsClient.remove(info.name, function (err, success) {
+                      should.not.exist(err);
+                      should.ok(success);
 
-                  // delete it
-                  tfsClient.remove(info.name, function (err, success) {
-                    should.not.exist(err);
-                    should.ok(success);
-                    var options = urlparse(info.url);
-                    var req = http.get(options, function (res) {
-                      res.should.status(404);
-                      done();
+                      setTimeout(function () {
+                        var options = urlparse(info.url);
+                        var req = http.get(options, function (res) {
+                          res.should.status(404);
+                          done();
+                        });
+                      }, 500);
+                      
                     });
-                  });
 
+                  });
                 });
               });
+              
+            }, 500);
 
-            });
           });
         });
       });
@@ -646,30 +654,30 @@ describe('client.test.js', function () {
       tfsClient.remove(name, function (err, success) {
         should.not.exist(err);
         should.ok(success);
+        setTimeout(function () {
+          tfsClient.getMeta(name, function (err, meta) {
+            should.exist(err);
+            err.name.should.equal('TFSRequestError');
+            err.status.should.equal(404);
+            should.not.exist(meta);
+            done();
+          });
 
-        tfsClient.getMeta(name, function (err, meta) {
-          should.exist(err);
-          err.name.should.equal('TFSRequestError');
-          err.status.should.equal(404);
-          should.not.exist(meta);
-          done();
-        });
+          tfsClient.getMeta(name, { type: 0 }, function (err, meta) {
+            should.exist(err);
+            err.name.should.equal('TFSRequestError');
+            err.status.should.equal(404);
+            should.not.exist(meta);
+            done();
+          });
 
-        tfsClient.getMeta(name, { type: 0 }, function (err, meta) {
-          should.exist(err);
-          err.name.should.equal('TFSRequestError');
-          err.status.should.equal(404);
-          should.not.exist(meta);
-          done();
-        });
-
-        tfsClient.getMeta(name, { type: 1 }, function (err, meta) {
-          should.not.exist(err);
-          meta.should.have.keys('FILE_NAME', 'BLOCK_ID', 'FILE_ID',
-            'OFFSET', 'SIZE', 'OCCUPY_SIZE', 'MODIFY_TIME', 'CREATE_TIME', 'STATUS', 'CRC');
-          done();
-        });
-
+          tfsClient.getMeta(name, { type: 1 }, function (err, meta) {
+            should.not.exist(err);
+            meta.should.have.keys('FILE_NAME', 'BLOCK_ID', 'FILE_ID',
+              'OFFSET', 'SIZE', 'OCCUPY_SIZE', 'MODIFY_TIME', 'CREATE_TIME', 'STATUS', 'CRC');
+            done();
+          });
+        }, 500);
       });
     });
 
