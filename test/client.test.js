@@ -82,9 +82,11 @@ describe('client.test.js', function () {
         client.appid.should.equal('1');
         should.not.exist(err);
         info.should.have.keys('name', 'url', 'size');
-        info.size.should.be.a('number');
-        info.name.should.be.a('string').with.match(/\.png$/);
-        info.url.should.be.a('string').with.match(/\.png$/);
+        info.size.should.be.a.Number;
+        info.name.should.be.a.String;
+        info.name.should.match(/\.png$/);
+        info.url.should.be.a.String;
+        info.name.should.match(/\.png$/);
         info.url.should.include('http://img01.daily.taobaocdn.net/tfscom/');
 
         client.refreshCounter = 1;
@@ -92,17 +94,21 @@ describe('client.test.js', function () {
         client.upload(fs.createReadStream(logopath), 'png', function (err, info) {
           should.not.exist(err);
           info.should.have.keys('name', 'url', 'size');
-          info.size.should.be.a('number');
-          info.name.should.be.a('string').with.match(/\.png$/);
-          info.url.should.be.a('string').with.match(/\.png$/);
+          info.size.should.be.a.Number;
+          info.name.should.be.a.String;
+          info.name.should.match(/\.png$/);
+          info.url.should.be.a.String;
+          info.name.should.match(/\.png$/);
           info.url.should.include('http://img02.daily.taobaocdn.net/tfscom/');
 
           client.upload(fs.readFileSync(logopath), 'png', function (err, info) {
             should.not.exist(err);
             info.should.have.keys('name', 'url', 'size');
-            info.size.should.be.a('number');
-            info.name.should.be.a('string').with.match(/\.png$/);
-            info.url.should.be.a('string').with.match(/\.png$/);
+            info.size.should.be.a.Number;
+            info.name.should.be.a.String;
+            info.name.should.match(/\.png$/);
+            info.url.should.be.a.String;
+            info.name.should.match(/\.png$/);
             info.url.should.include('http://img01.daily.taobaocdn.net/tfscom/');
             done();
           });
@@ -155,7 +161,7 @@ describe('client.test.js', function () {
       mm.http.requestError(/\/v1\/tfscom/, 'mock request() error');
       client.upload(logopath, function (err, info) {
         should.exist(err);
-        err.message.should.equal('mock request() error');
+        err.message.should.include('mock request() error');
         should.not.exist(info);
         done();
       });
@@ -211,9 +217,9 @@ describe('client.test.js', function () {
       tfsClient.upload(logopath, function (err, info) {
         should.not.exist(err);
         info.should.have.keys('name', 'url', 'size');
-        info.size.should.be.a('number');
-        info.name.should.be.a('string').with.match(/\.png$/);
-        info.url.should.be.a('string').with.match(/\.png$/);
+        info.size.should.be.a.Number;
+        info.name.should.be.a.String;
+        info.url.should.be.a.String;
         info.url.should.include('http://img01.daily.taobaocdn.net/tfscom/');
         var options = urlparse(info.url);
         var req = http.get(options, function (res) {
@@ -296,7 +302,7 @@ describe('client.test.js', function () {
       mm.http.requestError(/\/v1\/tfscom/, 'mock request() error');
       tfsClient.remove('T14H4cXilgXXXXXXXX.png', function (err, success) {
         should.exist(err);
-        err.message.should.equal('mock request() error');
+        err.message.should.include('mock request() error');
         should.not.exist(success);
         done();
       });
@@ -338,7 +344,7 @@ describe('client.test.js', function () {
       });
       client.once('refreshError', function (err) {
         should.exist(err);
-        err.message.should.equal('mock request() error');
+        err.message.should.include('mock request() error');
         done();
       });
 
@@ -501,7 +507,7 @@ describe('client.test.js', function () {
       tfsClient.getAppid(function (err, appid) {
         should.exist(err);
         err.name.should.equal('MockHttpRequestError');
-        err.message.should.equal('get appid error');
+        err.message.should.include('get appid error');
         should.not.exist(appid);
         done();
       });

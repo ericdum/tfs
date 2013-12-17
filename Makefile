@@ -21,6 +21,7 @@ test-cov: install
 
 toast:
 	@curl http://toast.corp.taobao.com/task/run/id/3396/token/a0419afa208b1bb8cb10eddae620bfae
+	@open  http://toast.corp.taobao.com/task/3396
 
 test-all: test test-cov
 
