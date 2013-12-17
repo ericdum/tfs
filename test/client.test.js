@@ -60,14 +60,21 @@ describe('client.test.js', function () {
   });
 
   describe('upload()', function () {
-    
-    var client = tfs.createClient({
-      appkey: 'tfscom',
-      rootServer: 'restful-store.daily.tbsite.net:3800',
-      imageServers: [
-        'img01.daily.taobaocdn.net',
-        'img02.daily.taobaocdn.net',
-      ],
+    var client;
+    before(function (done) {
+      client = tfs.createClient({
+        appkey: 'tfscom',
+        rootServer: 'restful-store.daily.tbsite.net:3800',
+        imageServers: [
+          'img01.daily.taobaocdn.net',
+          'img02.daily.taobaocdn.net',
+        ],
+      });
+      client.once('servers', function (servers) {
+        should.exist(servers);
+        servers.length.should.above(0);
+        done();
+      });
     });
 
     it('should upload logo.png to tfs', function (done) {
@@ -100,6 +107,26 @@ describe('client.test.js', function () {
             done();
           });
         });
+      });
+    });
+
+    it('should return mock server error', function (done) {
+      var data = fs.readFileSync(path.join(__dirname, 'server_error.txt'));
+      var headers = {
+        server: 'Tengine/1.3.0',
+        date: 'Wed, 14 Aug 2013 02:36:30 GMT',
+        'content-type': 'text/html',
+        'content-length': String(data.length),
+        connection: 'close',
+        statusCode: 500
+      };
+      mm.http.request(/\//, data, headers, 5);
+      client.upload(logopath, function (err, info) {
+        should.exist(err);
+        err.name.should.equal('TFSServerError');
+        err.status.should.equal(500);
+        err.message.should.equal('TFS Server error: 500 Internal Server Error (tfs004043.sqa.cm4)');
+        done();
       });
     });
 
@@ -251,13 +278,13 @@ describe('client.test.js', function () {
                           done();
                         });
                       }, 500);
-                      
+
                     });
 
                   });
                 });
               });
-              
+
             }, 500);
 
           });
@@ -361,7 +388,7 @@ describe('client.test.js', function () {
 
   it('should emit ready event', function (done) {
     done = pedding(2, done);
-    
+
     var c = tfs.createClient({
       appkey: 'tfscom',
       rootServer: 'restful-store.daily.tbsite.net:3800',
@@ -374,6 +401,7 @@ describe('client.test.js', function () {
       should.ok(c.appid);
       done();
     });
+
     // check queue
     c.uploadFile(logopath, 320, 'logo.png', function (err, info) {
       should.not.exist(err);
@@ -492,10 +520,16 @@ describe('client.test.js', function () {
   });
 
   describe('removeFile()', function () {
-    it('should remove not exists file success', function (done) {
+    it('should remove not exists file success or server error', function (done) {
       tfsClient.removeFile('320', 'noexists.jpg', function (err, success) {
-        should.not.exist(err);
-        should.ok(success);
+        if (err) {
+          err.name.should.equal('TFSServerError')
+          err.message.should.equal('TFS Server error: Internal Server Error (unknow server)');
+          err.status.should.equal(500);
+        } else {
+          should.not.exist(err);
+          should.ok(success);
+        }
         done();
       });
     });
