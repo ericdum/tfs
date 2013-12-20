@@ -1,6 +1,7 @@
 /*!
  * tfs - test/client.test.js
- * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
+ *
+ * Copyright(c) 2012 - 2013 fengmk2 <fengmk2@gmail.com>
  * MIT Licensed
  */
 
@@ -468,6 +469,30 @@ describe('client.test.js', function () {
         should.not.exist(err);
         should.ok(success);
         fs.statSync(tmpfile).size.should.equal(6);
+        fs.readFileSync(tmpfile, 'utf8').should.equal('123456');
+        done();
+      });
+    });
+
+    it('should download file 320/foo.txt with offset=3 and size=2', function (done) {
+      var tmpfile = path.join(TMPDIR, 'tfs_downloadfile');
+      tfsClient.downloadFile(320, 'foo.txt', tmpfile, {offset: 3, size: 2}, function (err, success) {
+        should.not.exist(err);
+        should.ok(success);
+        fs.statSync(tmpfile).size.should.equal(2);
+        fs.readFileSync(tmpfile, 'utf8').should.equal('45');
+        done();
+      });
+    });
+
+    it('should download error when file not exists', function (done) {
+      var tmpfile = path.join(TMPDIR, 'tfs_downloadfile');
+      tfsClient.downloadFile(320, 'foo-not-exists.txt', tmpfile, {offset: 3}, function (err, success) {
+        should.exist(err);
+        err.name.should.equal('TFSRequestError');
+        err.message.should.equal('TFS request error, Http status 404');
+        err.status.should.equal(404);
+        should.not.exist(success);
         done();
       });
     });

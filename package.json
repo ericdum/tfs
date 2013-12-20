@@ -4,16 +4,13 @@
   "description": "TFS: Taobao FileSystem nodejs client, http://code.taobao.org/p/tfs/src/",
   "main": "index.js",
   "scripts": {
-    "test": "make test-all",
-    "blanket": {
-      "pattern": "tfs/lib",
-      "data-cover-flags": {
-        "debug": false
-      }
-    }
+    "test": "make test-all"
   },
   "config": {
-    "travis-cov": {
+    "blanket": {
+      "pattern": "tfs/lib"
+    },
+    "alicov": {
       "threshold": 99
     }
   },
@@ -27,7 +24,7 @@
     "should": "*",
     "pedding": "*",
     "blanket": "*",
-    "travis-cov": "*",
+    "alicov": "*",
     "mm": "*",
     "mocha": "*"
   },

@@ -14,10 +14,7 @@ test: install
 		$(TESTS)
 
 test-cov: install
-	@rm -f coverage.html
-	@-$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
-	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
-	@ls -lh coverage.html
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov | ./node_modules/alicov/bin/alicov
 
 toast:
 	@curl http://toast.corp.taobao.com/task/run/id/3396/token/a0419afa208b1bb8cb10eddae620bfae
@@ -25,4 +22,4 @@ toast:
 
 test-all: test test-cov
 
-.PHONY: install test test-cov test-all
+.PHONY: test

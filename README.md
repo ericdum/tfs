@@ -217,14 +217,14 @@ Client.prototype.removeFile = function (uid, filename, callback, timeout);
 $ git summary
 
  project  : tfs
- repo age : 9 months
- active   : 15 days
- commits  : 42
- files    : 16
+ repo age : 1 year, 1 month
+ active   : 19 days
+ commits  : 52
+ files    : 17
  authors  :
-    34  苏千                  81.0%
-     6  fengmk2                 14.3%
-     2  不四                  4.8%
+    34  苏千                  65.4%
+    16  fengmk2                 30.8%
+     2  不四                  3.8%
 ```
 
 ## License
