@@ -1,4 +1,14 @@
 
+0.2.0 / 2013-12-20 
+==================
+
+  * add v2 api: downloadFile(), getFileMeta()
+  * fix test cases
+  * install from cnpm
+  * fix test cases
+  * add toast
+  * fixed test cases; change bt to buffer-type
+
 0.1.6 / 2013-08-13 
 ==================
 

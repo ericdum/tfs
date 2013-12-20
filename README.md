@@ -38,8 +38,8 @@ var client = tfs.createClient({
 // upload normal file
 client.upload(filepath, function (err, info) {
   console.log(info);
-  // { 
-  //   name: 'T2xRETBgZv1RCvBVdK.jpg', 
+  // {
+  //   name: 'T2xRETBgZv1RCvBVdK.jpg',
   //   url: 'http://img1.tfs.com/tfscom/T2xRETBgZv1RCvBVdK.jpg',
   //   size: 1024
   // }
@@ -48,8 +48,8 @@ client.upload(filepath, function (err, info) {
 // upload file content buffer directly
 client.upload(fs.readFileSync(filepath), '', function (err, info) {
   console.log(info);
-  // { 
-  //   name: 'T1Pj9zXkRYXXXXXXXX', 
+  // {
+  //   name: 'T1Pj9zXkRYXXXXXXXX',
   //   url: 'http://img1.tfs.com/tfscom/T1Pj9zXkRYXXXXXXXX',
   //   size: 5929
   // }
@@ -58,8 +58,8 @@ client.upload(fs.readFileSync(filepath), '', function (err, info) {
 // upload a stream
 client.upload(fs.createReadStream(filepath), 'jpg', function (err, info) {
   console.log(info);
-  // { 
-  //   name: 'T2xRETBgZv1RCvBVdL.jpg', 
+  // {
+  //   name: 'T2xRETBgZv1RCvBVdL.jpg',
   //   url: 'http://img1.tfs.com/tfscom/T2xRETBgZv1RCvBVdL.jpg',
   //   size: 1024
   // }
@@ -68,7 +68,7 @@ client.upload(fs.createReadStream(filepath), 'jpg', function (err, info) {
 // upload custom name file
 client.uploadFile(filepath, '320', 'foo.jpg', function (err, info) {
   console.log(info);
-  // { 
+  // {
   //   name: 'L1/1/320/foo.jpg',
   //   url: 'http://img1.tfs.com/L1/1/320/foo.jpg',
   //   size: 1984
@@ -76,12 +76,14 @@ client.uploadFile(filepath, '320', 'foo.jpg', function (err, info) {
 });
 ```
 
-## API
+## API v1: 原生TFS
+
+[原生TFS](http://baike.corp.taobao.com/index.php/CS_RD/tfs/use_web_service#.E5.8E.9F.E7.94.9FTFS)
 
 ```js
 /**
  * Create TFS RESTFul client.
- * 
+ *
  * @param {Object} options
  *  - {String} appkey
  *  - {String} [appLocation], default is 'tfscom'.
@@ -107,7 +109,7 @@ Client.prototype.upload = function (filepath, extname, callback, timeout);
 
 /**
  * Remove a file by name.
- * 
+ *
  * @param {String} name
  * @param {Object} [options]
  *  - {Number|String} hide, 1: hidden, 0: show
@@ -118,7 +120,7 @@ Client.prototype.remove = function (name, options, callback, timeout);
 
 /**
  * Download a file by name.
- * 
+ *
  * @param {String} name
  * @param {String|WriteStream} savefile, save file path or writable stream.
  * @param {Object} [options]
@@ -138,10 +140,35 @@ Client.prototype.download = function (name, savefile, options, callback, timeout
  * @param {Number} timeout
  */
 Client.prototype.getMeta = function (name, options, callback, timeout);
+```
+
+## API v2: 自定义文件名
+
+[自定义文件名](http://baike.corp.taobao.com/index.php/CS_RD/tfs/use_web_service#.E8.87.AA.E5.AE.9A.E4.B9.89.E6.96.87.E4.BB.B6.E5.90.8D)
+
+```js
+/**
+ * Get custom file meta.
+ *
+ * @param {String} uid user id
+ * @param {String} filename custom file name
+ * @param {Function(err, meta)} callback
+ * @param {Number} timeout
+ */
+Client.prototype.getFileMeta = function (uid, filename, callback, timeout);
+
+/**
+ * Create a file.
+ * @param {String} uid, user id
+ * @param {[type]} filename, e.g.: 'foo/bar.jpg', 'foo.png'.
+ * @param {Function(err, success)} callback
+ * @param {Number} [timeout], request timeout
+ */
+Client.prototype.createFile = function (uid, filename, callback, timeout);
 
 /**
  * Upload a file with custom filename.
- * 
+ *
  * @param {String} filepath
  * @param {String} uid, user id
  * @param {String} filename
@@ -153,8 +180,22 @@ Client.prototype.getMeta = function (name, options, callback, timeout);
 Client.prototype.uploadFile = function (filepath, uid, filename, options, callback, timeout);
 
 /**
+ * Download a file by custom name.
+ *
+ * @param {String} uid
+ * @param {String} filename
+ * @param {String|WriteStream} savefile, save file path or writable stream.
+ * @param {Object} [options]
+ *  - {Number} offset
+ *  - {Number} size
+ * @param {Function(err, success)} callback
+ * @param {Number} timeout, default is `client.uploadTimeout`.
+ */
+Client.prototype.downloadFile = function (uid, filename, savefile, options, callback, timeout);
+
+/**
  * Remove a custom name file.
- * 
+ *
  * @param {String} uid
  * @param {String} filename
  * @param {Function(err, success)} callback
@@ -173,20 +214,20 @@ Client.prototype.removeFile = function (uid, filename, callback, timeout);
 ## Authors
 
 ```bash
-$ git summary 
+$ git summary
 
  project  : tfs
  repo age : 9 months
  active   : 15 days
  commits  : 42
  files    : 16
- authors  : 
+ authors  :
     34  苏千                  81.0%
      6  fengmk2                 14.3%
      2  不四                  4.8%
 ```
 
-## License 
+## License
 
 (The MIT License)
 
