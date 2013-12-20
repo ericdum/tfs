@@ -449,7 +449,66 @@ describe('client.test.js', function () {
 
   });
 
-  describe('uploadFile()', function () {
+  describe('v2 downloadFile()', function () {
+    before(function (done) {
+      tfsClient.removeFile(320, 'foo.txt', function (err, success) {
+        tfsClient.uploadFile(new Buffer('123456'), 320, 'foo.txt', {offset: 0}, function (err, info) {
+          should.not.exist(err);
+          info.url.should.equal('http://img01.daily.taobaocdn.net/L1/1/320/foo.txt');
+          info.name.should.equal('L1/1/320/foo.txt');
+          info.size.should.equal(6);
+          done();
+        });
+      });
+    });
+
+    it('should download file 320/foo.txt', function (done) {
+      var tmpfile = path.join(TMPDIR, 'tfs_downloadfile');
+      tfsClient.downloadFile(320, 'foo.txt', tmpfile, function (err, success) {
+        should.not.exist(err);
+        should.ok(success);
+        fs.statSync(tmpfile).size.should.equal(6);
+        done();
+      });
+    });
+  });
+
+  describe('v2 getFileMeta()', function () {
+    before(function (done) {
+      tfsClient.removeFile(320, 'node-tfs-foometa.txt', function (err, success) {
+        tfsClient.uploadFile(new Buffer('123456'), 320, 'node-tfs-foometa.txt', function (err, info) {
+          should.not.exist(err);
+          info.name.should.equal('L1/1/320/node-tfs-foometa.txt');
+          info.size.should.equal(6);
+          done();
+        });
+      });
+    });
+
+    it('should get file 320/node-tfs-foometa.txt meta', function (done) {
+      tfsClient.getFileMeta(320, 'node-tfs-foometa.txt', function (err, meta) {
+        should.not.exist(err);
+        meta.should.have.keys('NAME', 'PID', 'ID', 'SIZE', 'IS_FILE', 'CREATE_TIME', 'MODIFY_TIME', 'VER_NO');
+        meta.NAME.should.equal('/node-tfs-foometa.txt');
+        meta.IS_FILE.should.equal(true);
+        meta.SIZE.should.equal(6);
+        done();
+      });
+    });
+
+    it('should 404 when file not exists', function (done) {
+      tfsClient.getFileMeta(320, 'node-tfs-foometa-notexsits.txt', function (err, meta) {
+        should.exist(err);
+        err.name.should.equal('TFSRequestError');
+        err.message.should.equal('TFS request error, Http status 404');
+        err.status.should.equal(404);
+        should.not.exist(meta);
+        done();
+      });
+    });
+  });
+
+  describe('v2 uploadFile()', function () {
 
     it('should uploadFile 320/logo.png', function (done) {
       tfsClient.uploadFile(logopath, 320, 'logo.png', function (err, info) {

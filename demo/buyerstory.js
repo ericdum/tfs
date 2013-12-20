@@ -14,9 +14,12 @@ var path = require('path');
 var tfs = require('../');
 
 var client = tfs.createClient({
+  rootServer: 'restful-store.daily.tbsite.net:3800',
   appkey: 'tfscom',
-  rootServer: '10.232.4.44:3800',
-  imageServers: [ 'img01.daily.taobaocdn.net' ],
+  imageServers: [
+    'img01.daily.taobaocdn.net',
+    'img02.daily.taobaocdn.net'
+  ]
 });
 
 client.on('servers', function (servers) {
@@ -29,6 +32,18 @@ client.on('refreshError', function (err) {
 
 var logopath = path.join(path.dirname(__dirname), 'logo.png');
 
-client.uploadFile(logopath, '320', 'tfs.png', function (err, info) {
-  console.log(info);
+// client.uploadFile(logopath, '320', 'tfs.png', function (err, info) {
+//   console.log('uploadFile info: %j', info);
+//   client.getMeta(info.name, function (err, meta) {
+//     console.log(err)
+//     console.log('uploadFile meta: %j', meta);
+//   });
+// });
+
+client.upload(logopath, function (err, info) {
+  console.log('upload info: %j', info);
+  client.getMeta(info.name, function (err, meta) {
+    // console.log(err)
+    console.log('upload meta: %j', meta);
+  });
 });
