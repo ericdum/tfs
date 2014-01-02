@@ -24,14 +24,7 @@ var TMPDIR = process.env.TMPDIR || '/tmp';
 
 describe('client.test.js', function () {
 
-  var tfsClient = tfs.createClient({
-    appkey: 'tfscom',
-    rootServer: 'restful-store.daily.tbsite.net:3800',
-    imageServers: [
-      'img01.daily.taobaocdn.net',
-      'img02.daily.taobaocdn.net',
-    ],
-  });
+  var tfsClient = tfs.createClient(require('./config'));
 
   var logopath = path.join(path.dirname(__dirname), 'logo.png');
 

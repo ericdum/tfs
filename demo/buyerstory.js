@@ -14,8 +14,8 @@ var path = require('path');
 var tfs = require('../');
 
 var client = tfs.createClient({
-  rootServer: 'restful-store.daily.tbsite.net:3800',
-  appkey: 'tfscom',
+  rootServer: '$domain:$port',
+  appkey: 'appkey',
   imageServers: [
     'img01.daily.taobaocdn.net',
     'img02.daily.taobaocdn.net'

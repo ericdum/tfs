@@ -27,11 +27,11 @@ var tfs = require('tfs');
 
 // e.g.: test environment on tb daily
 var client = tfs.createClient({
-  rootServer: 'restful-store.daily.tbsite.net:3800',
-  appkey: 'tfscom',
+  rootServer: '$tfsdomain:$port',
+  appkey: 'appkey',
   imageServers: [
-    'img01.daily.taobaocdn.net',
-    'img02.daily.taobaocdn.net'
+    'img01.tfs.com',
+    'img02.tfs.com'
   ]
 });
 
