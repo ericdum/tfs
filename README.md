@@ -5,9 +5,6 @@ tfs
 
 [TFS: Taobao FileSystem](http://code.taobao.org/p/tfs/src/) nodejs client.
 
-* [RESTful API](http://baike.corp.taobao.com/index.php/CS_RD/tfs/use_web_service)
-* [Diagnose Tools](http://baike.corp.taobao.com/index.php/CS_RD/tfs/diagnose)
-
 ## Install
 
 ```bash
@@ -88,8 +85,6 @@ client.uploadPrivate(filepath, function (err, info) {
 
 ## API v1: 原生TFS
 
-[原生TFS](http://baike.corp.taobao.com/index.php/CS_RD/tfs/use_web_service#.E5.8E.9F.E7.94.9FTFS)
-
 ```js
 /**
  * Create TFS RESTFul client.
@@ -153,8 +148,6 @@ Client.prototype.getMeta = function (name, options, callback, timeout);
 ```
 
 ## API v2: 自定义文件名
-
-[自定义文件名](http://baike.corp.taobao.com/index.php/CS_RD/tfs/use_web_service#.E8.87.AA.E5.AE.9A.E4.B9.89.E6.96.87.E4.BB.B6.E5.90.8D)
 
 ```js
 /**

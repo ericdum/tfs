@@ -1,6 +1,6 @@
 TESTS = test/*.test.js
 REPORTER = spec
-TIMEOUT = 5000
+TIMEOUT = 10000
 MOCHA_OPTS =
 
 install:
@@ -21,5 +21,8 @@ toast:
 	@open  http://toast.corp.taobao.com/task/3396
 
 test-all: test test-cov
+
+contributors: install
+	@./node_modules/contributors/bin/contributors -f plain -o AUTHORS
 
 .PHONY: test
