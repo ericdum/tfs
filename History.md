@@ -1,4 +1,13 @@
 
+0.2.1 / 2014-01-08 
+==================
+
+  * fix test cases fail on remove()
+  * add uploadPrivate() to support private file (@dead-horse)
+  * no default root server
+  * update config
+  * improve coverage
+
 0.2.0 / 2013-12-20 
 ==================
 

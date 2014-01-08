@@ -221,13 +221,14 @@ $ git summary
 
  project  : tfs
  repo age : 1 year, 1 month
- active   : 19 days
- commits  : 52
- files    : 17
+ active   : 21 days
+ commits  : 60
+ files    : 18
  authors  :
-    34  苏千                  65.4%
-    16  fengmk2                 30.8%
-     2  不四                  3.8%
+    34  苏千                  56.7%
+    22  fengmk2                 36.7%
+     2  dead_horse              3.3%
+     2  不四                  3.3%
 ```
 
 ## License
