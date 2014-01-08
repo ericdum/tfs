@@ -19,12 +19,14 @@ var should = require('should');
 var mm = require('mm');
 var http = require('http');
 var pedding = require('pedding');
+var tfsConfig = require('./config');
+var urllib = require('urllib');
 
 var TMPDIR = process.env.TMPDIR || '/tmp';
 
 describe('client.test.js', function () {
 
-  var tfsClient = tfs.createClient(require('./config'));
+  var tfsClient = tfs.createClient(tfsConfig);
 
   var logopath = path.join(path.dirname(__dirname), 'logo.png');
 
@@ -37,14 +39,7 @@ describe('client.test.js', function () {
   });
 
   it('should emit error when getAppid() error', function (done) {
-    var tfsClientError = tfs.createClient({
-      appkey: 'tfscom',
-      rootServer: 'restful-store.daily.tbsite.net:3800',
-      imageServers: [
-        'img01.daily.taobaocdn.net',
-        'img02.daily.taobaocdn.net',
-      ],
-    });
+    var tfsClientError = tfs.createClient(tfsConfig);
     mm.error(tfsClientError, 'getAppid');
     tfsClientError.on('error', function (err) {
       should.exists(err);
@@ -56,14 +51,7 @@ describe('client.test.js', function () {
   describe('upload()', function () {
     var client;
     before(function (done) {
-      client = tfs.createClient({
-        appkey: 'tfscom',
-        rootServer: 'restful-store.daily.tbsite.net:3800',
-        imageServers: [
-          'img01.daily.taobaocdn.net',
-          'img02.daily.taobaocdn.net',
-        ],
-      });
+      client = tfs.createClient(tfsConfig);
       client.once('servers', function (servers) {
         should.exist(servers);
         servers.length.should.above(0);
@@ -205,6 +193,40 @@ describe('client.test.js', function () {
 
   });
 
+describe('uploadPrivate()', function () {
+    var client;
+    before(function (done) {
+      client = tfs.createClient(tfsConfig);
+      client.once('servers', function (servers) {
+        should.exist(servers);
+        servers.length.should.above(0);
+        done();
+      });
+    });
+
+    it('should upload logo.png to tfs', function (done) {
+      client.uploadPrivate(logopath, function (err, info) {
+        client.appid.should.equal('1');
+        should.not.exist(err);
+        info.should.have.keys('name', 'url', 'size');
+        info.size.should.be.a.Number;
+        info.name.should.be.a.String;
+        info.name.should.match(/\.png$/);
+        info.url.should.be.a.String;
+        info.name.should.match(/\.png$/);
+        info.url.should.include('http://img01.daily.taobaocdn.net/tfscom/');
+        info.name.should.match(/\.tfsprivate/);
+        info.url.should.match(/\.tfsprivate/);
+        client.refreshCounter = 1;
+
+        urllib.request(info.url, function (err, data, res) {
+          res.statusCode.should.equal(403);
+          done();
+        });
+      });
+    });
+  });
+
   describe('remove()', function () {
 
     it('should remove a exists file', function (done) {
@@ -309,10 +331,7 @@ describe('client.test.js', function () {
     var client;
 
     before(function () {
-      client = tfs.createClient({
-        appkey: 'tfscom',
-        rootServer: 'restful-store.daily.tbsite.net:3800'
-      });
+      client = tfs.createClient(tfsConfig);
     });
 
     it('should get servers list from rootServer', function (done) {
@@ -389,14 +408,7 @@ describe('client.test.js', function () {
   it('should emit ready event', function (done) {
     done = pedding(2, done);
 
-    var c = tfs.createClient({
-      appkey: 'tfscom',
-      rootServer: 'restful-store.daily.tbsite.net:3800',
-      imageServers: [
-        'img01.daily.taobaocdn.net',
-        'img02.daily.taobaocdn.net',
-      ],
-    });
+    var c = tfs.createClient(tfsConfig);
     c.on('ready', function () {
       should.ok(c.appid);
       done();

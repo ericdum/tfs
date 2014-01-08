@@ -74,6 +74,16 @@ client.uploadFile(filepath, '320', 'foo.jpg', function (err, info) {
   //   size: 1984
   // }
 });
+
+// upload private file, will not get by CDN
+client.uploadPrivate(filepath, function (err, info) {
+  console.log(info);
+  // {
+  //   name: 'T1XeRfXkBXXXXXXXXX.tfsprivate.jpg',
+  //   size: 11779,
+  //   url: 'http://img01.daily.taobaocdn.net/tfscom/T1XeRfXkBXXXXXXXXX.tfsprivate.jpg'
+  // }
+});
 ```
 
 ## API v1: 原生TFS
