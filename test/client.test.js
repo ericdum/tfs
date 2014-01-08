@@ -221,7 +221,13 @@ describe('uploadPrivate()', function () {
 
         urllib.request(info.url, function (err, data, res) {
           res.statusCode.should.equal(403);
-          done();
+          var tmpfile = '/tmp/tfslogo.png';
+          client.download(info.name, tmpfile, function (err, success) {
+            should.not.exist(err);
+            success.should.equal(true);
+            fs.statSync(tmpfile).size.should.equal(info.size);
+            done();
+          });
         });
       });
     });
