@@ -1,4 +1,10 @@
 
+0.2.3 / 2014-02-12 
+==================
+
+  * update readme
+  * add download private file test cases
+
 0.2.2 / 2014-01-08 
 ==================
 
