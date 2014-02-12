@@ -9,11 +9,11 @@ Thank you very much!</p>
 <table>
 <tr>
 <td>URL:</td>
-<td>http://10.232.4.43:3900/v2/tfscom/1/320/file/logo.png?recursive=1</td>
+<td>http://10.0.0.123:3900/v2/tfscom/1/320/file/logo.png?recursive=1</td>
 </tr>
 <tr>
 <td>Server:</td>
-<td>tfs004043.sqa.cm4</td>
+<td>testserver</td>
 </tr>
 <tr>
 <td>Date:</td>

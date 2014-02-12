@@ -14,13 +14,13 @@
 var fs = require('fs');
 var urlparse = require('url').parse;
 var path = require('path');
-var tfs = require('../');
 var should = require('should');
 var mm = require('mm');
 var http = require('http');
 var pedding = require('pedding');
-var tfsConfig = require('./config');
 var urllib = require('urllib');
+var tfsConfig = require('./config');
+var tfs = require('../');
 
 var TMPDIR = process.env.TMPDIR || '/tmp';
 
@@ -113,7 +113,7 @@ describe('client.test.js', function () {
         should.exist(err);
         err.name.should.equal('TFSServerError');
         err.status.should.equal(500);
-        err.message.should.equal('TFS Server error: 500 Internal Server Error (tfs004043.sqa.cm4)');
+        err.message.should.equal('TFS Server error: 500 Internal Server Error (testserver)');
         done();
       });
     });

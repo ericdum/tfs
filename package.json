@@ -29,6 +29,7 @@
     "mm": "*",
     "mocha": "*"
   },
+  "homepage": "https://github.com/fengmk2/tfs",
   "repository": {
     "type": "git",
     "url": "git://github.com/fengmk2/tfs.git",

@@ -93,7 +93,7 @@ client.uploadPrivate(filepath, function (err, info) {
  *  - {String} appkey
  *  - {String} [appLocation], default is 'tfscom'.
  *  - {Number} [uploadTimeout], upload max timeout, default is 60s.
- *  - {String} [rootServer], 'host:port' format, default is 'restful-store.vip.tbsite.net:3800'.
+ *  - {String} rootServer, 'host:port' format.
  *  - {Array} [imageServers], default is CDN online servers list.
  * @return {Client}
  */

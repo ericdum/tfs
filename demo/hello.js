@@ -1,5 +1,5 @@
 /*!
- * tfs - demo/buyerstory.js
+ * tfs - demo/hello.js
  * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
  * MIT Licensed
  */
