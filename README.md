@@ -63,6 +63,8 @@ client.upload(fs.createReadStream(filepath), 'jpg', function (err, info) {
 });
 
 // upload custom name file
+// use uploadPrivateFile to upload a privateFile. if to do so, note the filename before ".jpg" will be suffix a ".tfsprivate"
+// if no imageServer be specified, the url might unusable.
 client.uploadFile(filepath, '320', 'foo.jpg', function (err, info) {
   console.log(info);
   // {

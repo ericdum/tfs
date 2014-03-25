@@ -595,6 +595,54 @@ describe('uploadPrivate()', function () {
 
   });
 
+  describe('v2 uploadPrivateFile()', function () {
+
+    it('should uploadPrivateFile 320/logo.png', function (done) {
+      tfsClient.uploadPrivateFile(logopath, 320, 'logo.png', function (err, info) {
+        should.not.exist(err);
+        info.should.have.keys('url', 'name', 'size');
+        info.name.should.equal('1/320/file/logo.tfsprivate.png');
+        info.url.should.include('http://');
+        info.url.should.include('1/320/file/logo.tfsprivate.png');
+
+        var p2 = path.join(__dirname, '1212.jpg');
+        tfsClient.uploadPrivateFile(p2, 1212, 'head.jpg', function (err, info) {
+          should.not.exist(err);
+          info.should.have.keys('url', 'name', 'size');
+          info.name.should.equal('1/1212/file/head.tfsprivate.jpg');
+          info.url.should.include('http://');
+          info.url.should.include('1/1212/file/head.tfsprivate.jpg');
+
+          urllib.request(info.url, function (err, data, res) {
+            res.statusCode.should.equal(200);
+            done();
+          });
+        });
+      });
+    });
+
+    it('should return error when uid wrong', function (done) {
+      tfsClient.uploadPrivateFile(logopath, 'wrongid', 'logo.png', function (err, info) {
+        should.exist(err);
+        err.name.should.equal('TFSRequestError');
+        err.message.should.equal('TFS request error, Http status 400');
+        err.data.should.include('400 Bad Request');
+        should.not.exist(info);
+        done();
+      });
+    });
+
+    it('should return error when file not exists', function (done) {
+      tfsClient.uploadPrivateFile(logopath + 'not exists', 'wrongid', 'logo.png', function (err, info) {
+        should.exist(err);
+        err.message.should.include('ENOENT');
+        should.not.exist(info);
+        done();
+      });
+    });
+
+  });
+
   describe('getAppid()', function () {
     it('should return appid', function (done) {
       tfsClient.getAppid(function (err, appid) {
