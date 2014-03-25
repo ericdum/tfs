@@ -6,6 +6,9 @@ MOCHA_OPTS =
 install:
 	@npm install --registry=http://registry.cnpmjs.org --cache=${HOME}/.npm/.cache/cnpm
 
+jshint: install
+	@./node_modules/.bin/jshint .
+
 test: install
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(REPORTER) \
@@ -24,5 +27,9 @@ test-all: test test-cov
 
 contributors: install
 	@./node_modules/contributors/bin/contributors -f plain -o AUTHORS
+
+autod: install
+	@./node_modules/.bin/autod -w
+	@$(MAKE) install
 
 .PHONY: test

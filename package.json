@@ -15,19 +15,21 @@
     }
   },
   "dependencies": {
-    "debug": ">=0.7.4",
-    "eventproxy": ">=0.2.6",
-    "urllib": ">=0.5.5",
-    "buffer-type": ">=0.0.1"
+    "buffer-type": "0.0.1",
+    "debug": "0.7.4",
+    "eventproxy": "0.3.0",
+    "urllib": "0.5.11"
   },
   "devDependencies": {
-    "contributors": "*",
-    "should": "*",
-    "pedding": "*",
-    "blanket": "*",
     "alicov": "*",
-    "mm": "*",
-    "mocha": "*"
+    "autod": "*",
+    "blanket": "*",
+    "contributors": "*",
+    "jshint": "*",
+    "mm": "0.2.1",
+    "mocha": "*",
+    "pedding": "0.0.3",
+    "should": "3.2.0-beta1"
   },
   "homepage": "https://github.com/fengmk2/tfs",
   "repository": {

@@ -631,7 +631,7 @@ describe('uploadPrivate()', function () {
     it('should remove not exists file success or server error', function (done) {
       tfsClient.removeFile('320', 'noexists.jpg', function (err, success) {
         if (err) {
-          err.name.should.equal('TFSServerError')
+          err.name.should.equal('TFSServerError');
           err.message.should.equal('TFS Server error: Internal Server Error (unknow server)');
           err.status.should.equal(500);
         } else {
@@ -645,7 +645,7 @@ describe('uploadPrivate()', function () {
     it('should return error when uid wrong', function (done) {
       tfsClient.removeFile('wronguid', 'noexists.jpg', function (err, success) {
         should.exist(err);
-        err.message.should.equal('TFS request error, Http status 400')
+        err.message.should.equal('TFS request error, Http status 400');
         should.not.exist(success);
         done();
       });
